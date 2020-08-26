@@ -11,13 +11,13 @@ servers:
 security:
   - bearerAuth: []
 paths:
-  /colors:
+  /prefs:
     get:
-      summary: Get colors
-      description: 色一覧を取得
+      summary: Get all prefs
+      description: 全ての県を取得
       responses:
         200:
-          description: 色一覧を返す
+          description: 全ての県を返す
           content:
             application/json:
               schema:
@@ -26,37 +26,10 @@ paths:
                   message:
                     type: string
                     example: 200
-                  colors:
+                  prefs:
                     type: array
                     items:
-                      $ref: '#/components/schemas/ColorModel'
-    post:
-      summary: Create color
-      description: 色を作成
-      requestBody:
-        content:
-          application/json:
-            schema:
-              required:
-                - name
-              properties:
-                name:
-                  type: string
-                  example: 赤
-      responses:
-        201:
-          description: 作成した色を返す
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Success
-                  color:
-                    type: object
-                    $ref: '#/components/schemas/ColorModel'
+                      $ref: '#/components/schemas/Pref'
         400:
           description: 作成エラー
           content:
@@ -67,24 +40,49 @@ paths:
                   message:
                     type: string
                     example: Failure
+  /pref/{prefId}:
+    get:
+      summary: Get Single pref
+      description: prefIdの県情報を返す
+      parameters:
+      - name: "prefId"
+        in: "path"
+        description: "取得したい県のID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: prefIdの県情報を返す
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 200
+                  pref:
+                    $ref: '#/components/schemas/Pref'
+        400:
+          description: 作成エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Failure                    
 components:
   schemas:
-    ColorModel:
+    Pref:
       type: object
       properties:
         id:
           type: integer
-          example: 1
+          example: 12
           description: primary id
         name:
           type: string
-          example: 赤
-          description: 名前
-        created_at:
-          type: string
-          example: 2002/05/12 20:30:15
-          description: 作成日
-        updated_at:
-          type: string
-          example: 2002/05/12 20:30:15
-          description: 作成日
+          example: 千葉
+          description: 県名
