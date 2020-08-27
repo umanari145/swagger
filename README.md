@@ -34,3 +34,32 @@ curl http://localhost:19883/XXXXX -X POST -H "Content-Type: application/json"  -
 ＃レスポンス
 
 ```
+
+openAPIをjsonにしてaws-cliで１APIGatewayを作れる
+
+YamlからJSONに変換
+https://www.convertjson.com/yaml-to-json.htm
+
+```
+#カレントディレクトにopenapi.jsonをおいて下記コマンドを実行(APIgatewayが作られる)
+aws apigateway import-rest-api --body 'file://openapi.json' --region us-east-1
+
+#レスポンス
+{
+    "id": "nmqtd5bbnc",
+    "name": "OpenAPIテスト",
+    "description": "OpenAPIテスト",
+    "createdDate": 1598531567,
+    "version": "1.0.0",
+    "warnings": [
+        "Parse issue: attribute paths.'/area/{zipCode}'(get).parameters.[zipCode].type is unexpected",
+        "More than one server provided. Ignoring all but the first for defining endpoint configuration"
+    ],
+    "apiKeySource": "HEADER",
+    "endpointConfiguration": {
+        "types": [
+            "EDGE"
+        ]
+    }
+}
+```
