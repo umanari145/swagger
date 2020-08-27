@@ -11,48 +11,19 @@ servers:
 security:
   - bearerAuth: []
 paths:
-  /prefs:
+  /area/{zipCode}:
     get:
-      summary: Get all prefs
-      description: 全ての県を取得
-      responses:
-        200:
-          description: 全ての県を返す
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: 200
-                  prefs:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Pref'
-        400:
-          description: 作成エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Failure
-  /pref/{prefId}:
-    get:
-      summary: Get Single pref
-      description: prefIdの県情報を返す
+      summary: Get Area
+      description: zipCodeから地域を返す
       parameters:
-      - name: "prefId"
+      - name: "zipCode"
         in: "path"
-        description: "取得したい県のID"
+        description: "取得したい地域の郵便番号"
         required: true
         type: "string"
       responses:
         200:
-          description: prefIdの県情報を返す
+          description: 地域の情報を返す
           content:
             application/json:
               schema:
@@ -61,8 +32,8 @@ paths:
                   message:
                     type: string
                     example: 200
-                  pref:
-                    $ref: '#/components/schemas/Pref'
+                  area:
+                    $ref: '#/components/schemas/Area'
         400:
           description: 作成エラー
           content:
@@ -75,14 +46,14 @@ paths:
                     example: Failure                    
 components:
   schemas:
-    Pref:
+    Area:
       type: object
       properties:
-        id:
-          type: integer
-          example: 12
-          description: primary id
+        zipCode:
+          type: string
+          example: 274-0077
+          description: 郵便番号
         name:
           type: string
-          example: 千葉
-          description: 県名
+          example: 千葉船場市薬円台3丁目
+          description: 地域情報
